@@ -1,18 +1,18 @@
+'use client'
+
 import Image from 'next/image';
 import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchFilteredInvoices } from '@/app/lib/data';
+import { InvoicesTable as InvoicesTableProps } from '../../lib/definitions';
+import { use } from 'react';
 
-export default async function InvoicesTable({
-  query,
-  currentPage,
+export default function InvoicesTable({
+  invoicesPromise
 }: {
-  query: string;
-  currentPage: number;
+  invoicesPromise: Promise<InvoicesTableProps[]>
 }) {
-  const invoices = await fetchFilteredInvoices(query, currentPage);
-
+  const invoices = use(invoicesPromise);
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
